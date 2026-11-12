@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cuentos para leer y jugar</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF5F8;--card:#FFFFFF;--tx:#1F3A4D;--mut:#587083;--ac:#4C63C9;--onac:#FFFFFF;--ok:#1F7A57;--okbg:#DDF3E9;--no:#FBEBD3;--bd:#CFDEE6;--star:#E9A92C;--fs:28px;--ls:.02em;--lh:1.6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A2231;--card:#243044;--tx:#E6EDF5;--mut:#9FB1C4;--ac:#8EA2FF;--onac:#14182B;--ok:#7AD1A8;--okbg:#1F3D33;--no:#40382A;--bd:#37465C;--star:#E9B54F}}
+:root[data-theme="dark"]{--bg:#1A2231;--card:#243044;--tx:#E6EDF5;--mut:#9FB1C4;--ac:#8EA2FF;--onac:#14182B;--ok:#7AD1A8;--okbg:#1F3D33;--no:#40382A;--bd:#37465C;--star:#E9B54F}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;height:100%;background:var(--bg);color:var(--tx);font-family:'Lexend',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+#app{max-width:520px;margin:0 auto;min-height:100%;padding:14px 16px 28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+h1{font-size:28px;line-height:1.25;margin:4px 0 0;font-weight:600}
+p{margin:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.btn{font:inherit;font-size:20px;font-weight:600;min-height:58px;padding:12px 22px;border-radius:20px;border:2px solid var(--ac);background:var(--card);color:var(--tx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.btn.main{background:var(--ac);color:var(--onac)}
+.btn.sq{min-width:58px;padding:12px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,.chip:focus-visible{outline:4px solid var(--tx);outline-offset:3px}
+.story{width:100%;text-align:left;font:inherit;display:flex;align-items:center;gap:16px;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:24px;padding:18px;cursor:pointer;min-height:96px}
+.story .em{font-size:52px;line-height:1}
+.story b{font-size:24px;display:block}
+.story span{color:var(--mut);font-size:17px}
+.panel{background:var(--card);border:2px solid var(--bd);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:19px}
+.chip{font:inherit;font-size:18px;min-height:48px;padding:8px 18px;border-radius:999px;border:2px solid var(--ac);background:var(--card);color:var(--tx);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ac);color:var(--onac)}
+.bar{height:12px;border-radius:99px;background:var(--bd);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ac);border-radius:99px}
+.page{background:var(--card);border:2px solid var(--bd);border-radius:28px;padding:22px 20px;display:flex;flex-direction:column;align-items:center;gap:18px;min-height:300px;justify-content:center;text-align:center}
+.pic{font-size:84px;line-height:1}
+.txt{font-size:var(--fs);line-height:var(--lh);letter-spacing:var(--ls);word-spacing:.12em;display:flex;flex-direction:column;gap:10px}
+.nav{display:flex;gap:12px}
+.nav .btn{flex:1}
+.slot{display:inline-block;min-width:3.2em;border-bottom:4px solid var(--ac);padding:0 .25em;margin:0 .1em;color:var(--ac)}
+.slot.ok{color:var(--ok);border-color:var(--ok);background:var(--okbg);border-radius:10px}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opts .btn{font-size:26px;min-height:68px}
+.opts .btn.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.opts .btn.no{background:var(--no);border-color:var(--bd);color:var(--mut)}
+.msg{font-size:22px;min-height:34px;text-align:center;font-weight:600}
+.stars{font-size:44px;letter-spacing:.15em;color:var(--star)}
+.hid{display:none!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head>
+<body><div id="app"></div>
+<script>
+const STORIES=[
+{id:'luna',t:'La gata Luna',e:'🐱',pages:[
+['🐱',['Luna es una gata gris.','Vive en una casa verde.']],
+['🐦',['Un día, Luna ve un pájaro azul.','El pájaro canta en el árbol.']],
+['🌳',['Luna quiere subir al árbol.','Sube, sube y sube.']],
+['😿',['¡Oh no! Luna tiene miedo.','No puede bajar.']],
+['🪜',['Ana llega con una escalera.','Luna baja muy feliz.']],
+['🥛',['Luna y Ana toman leche.','Fin.']]],
+q:[['Luna es una gata ___.','gris',['gris','roja','negra']],['El pájaro es de color ___.','azul',['azul','verde','rojo']],['Luna sube al ___.','árbol',['árbol','techo','río']],['___ llega con una escalera.','Ana',['Ana','Pedro','Mamá']]]},
+{id:'tita',t:'La tortuga Tita',e:'🐢',pages:[
+['🐢',['Tita es una tortuga pequeña.','Camina muy despacio.']],
+['🐇',['Un conejo corre rápido.','Dice: “¡Ven, Tita, vamos a jugar!”']],
+['👣',['Tita camina y camina.','No se rinde.']],
+['😴',['El conejo se cansa.','Se sienta a descansar.']],
+['🏁',['Tita llega a la meta.','¡Lo logró!']]],
+q:[['Tita es una ___ pequeña.','tortuga',['tortuga','rana','gata']],['Tita camina muy ___.','despacio',['despacio','rápido','mal']],['El ___ se cansa.','conejo',['conejo','perro','pez']],['Tita llega a la ___.','meta',['meta','casa','luna']]]}
+];
+let cfg={fs:28,wide:false,focus:false,theme:'auto',open:false};
+try{Object.assign(cfg,JSON.parse(localStorage.getItem('cuentos-cfg')||'{}'));cfg.open=false}catch(e){}
+const $=document.getElementById('app');
+let st={screen:'home'};
+function save(){try{localStorage.setItem('cuentos-cfg',JSON.stringify(cfg))}catch(e){}}
+function apply(){const r=document.documentElement;r.style.setProperty('--fs',cfg.fs+'px');r.style.setProperty('--ls',cfg.wide?'.08em':'.02em');r.style.setProperty('--lh',cfg.wide?'1.9':'1.6');
+ if(cfg.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',cfg.theme)}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='es-ES';u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
+function stop(){try{speechSynthesis.cancel()}catch(e){}}
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1])}
+function set(k,v){cfg[k]=v;save();apply();render()}
+function settings(){return `<div class="panel" id="set">
+<div class="row"><span>Tamaño de letra</span><span><button class="chip" onclick="set('fs',Math.max(20,cfg.fs-4))" aria-label="Letra más pequeña">A−</button> <button class="chip" onclick="set('fs',Math.min(40,cfg.fs+4))" aria-label="Letra más grande">A+</button></span></div>
+<div class="row"><span>Letras más separadas</span><button class="chip" aria-pressed="${cfg.wide}" onclick="set('wide',!cfg.wide)">${cfg.wide?'Sí':'No'}</button></div>
+<div class="row"><span>Una frase cada vez</span><button class="chip" aria-pressed="${cfg.focus}" onclick="set('focus',!cfg.focus)">${cfg.focus?'Sí':'No'}</button></div>
+<div class="row"><span>Colores</span><span><button class="chip" aria-pressed="${cfg.theme==='light'}" onclick="set('theme','light')">Claros</button> <button class="chip" aria-pressed="${cfg.theme==='dark'}" onclick="set('theme','dark')">Oscuros</button></span></div>
+</div>`}
+function head(back){return `<div class="top">${back?`<button class="btn sq" onclick="go('home')" aria-label="Volver al inicio">←</button>`:'<span></span>'}<button class="btn sq" onclick="cfg.open=!cfg.open;render()" aria-label="Ajustes" aria-expanded="${cfg.open}">⚙️</button></div>${cfg.open?settings():''}`}
+function go(s,extra){stop();st=Object.assign({screen:s},extra||{});cfg.open=false;render();window.scrollTo(0,0)}
+function steps(s){const o=[];s.pages.forEach(p=>{if(cfg.focus)p[1].forEach(l=>o.push({e:p[0],l:[l]}));else o.push({e:p[0],l:p[1]})});return o}
+function render(){
+ if(st.screen==='home'){
+  $.innerHTML=head(false)+`<h1>¿Qué cuento quieres leer?</h1>`+STORIES.map((s,i)=>`<button class="story" onclick="go('read',{i:${i},n:0})"><span class="em">${s.e}</span><span><b>${s.t}</b><span>${s.pages.length} páginas · después, un juego</span></span></button>`).join('');
+ }else if(st.screen==='read'){
+  const s=STORIES[st.i],a=steps(s),p=a[st.n],last=st.n===a.length-1;
+  $.innerHTML=head(true)+`<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${a.length}" aria-valuenow="${st.n+1}"><i style="width:${(st.n+1)/a.length*100}%"></i></div>
+  <div class="page"><div class="pic" aria-hidden="true">${p.e}</div><div class="txt">${p.l.map(l=>`<p>${l}</p>`).join('')}</div>
+  <button class="btn" onclick="say(${JSON.stringify(p.l.join(' '))})">🔊 Escuchar</button></div>
+  <div class="nav"><button class="btn" ${st.n===0?'disabled':''} onclick="go('read',{i:${st.i},n:${st.n-1}})">Atrás</button>
+  <button class="btn main" onclick="${last?`go('quiz',{i:${st.i},k:0,o:null,done:false,err:''})`:`go('read',{i:${st.i},n:${st.n+1}})`}">${last?'¡A jugar!':'Siguiente'}</button></div>`;
+ }else if(st.screen==='quiz'){
+  const s=STORIES[st.i],q=s.q[st.k];
+  if(!st.o)st.o=shuffle(q[2]);
+  const parts=q[0].split('___');
+  $.innerHTML=head(true)+`<div class="bar" aria-hidden="true"><i style="width:${st.k/s.q.length*100}%"></i></div>
+  <div class="page"><div class="txt"><p>${parts[0]}<span class="slot ${st.done?'ok':''}">${st.done?q[1]:'&nbsp;&nbsp;&nbsp;'}</span>${parts[1]}</p></div>
+  <button class="btn" onclick="say(${JSON.stringify(q[0].replace('___',st.done?q[1]:'…'))})">🔊 Escuchar</button></div>
+  <div class="opts">${st.o.map(w=>`<button class="btn ${st.done&&w===q[1]?'ok':''} ${st.bad&&st.bad.includes(w)?'no':''}" ${st.done||(st.bad&&st.bad.includes(w))?'disabled':''} onclick="pick(${JSON.stringify(w)})">${w}</button>`).join('')}</div>
+  <p class="msg" aria-live="polite">${st.done?'¡Muy bien!':st.err}</p>
+  ${st.done?`<button class="btn main" onclick="${st.k+1<s.q.length?`go('quiz',{i:${st.i},k:${st.k+1},o:null,done:false,err:''})`:`go('end',{i:${st.i}})`}">${st.k+1<s.q.length?'Siguiente':'Terminar'}</button>`:''}`;
+ }else{
+  const s=STORIES[st.i];
+  $.innerHTML=head(false)+`<div class="page"><div class="pic" aria-hidden="true">🌟</div><h1>¡Lo lograste!</h1><div class="stars" aria-label="${s.q.length} estrellas">${'⭐'.repeat(s.q.length)}</div><p class="txt" style="font-size:22px">Leíste “${s.t}” y completaste todo el juego.</p></div>
+  <button class="btn main" onclick="go('read',{i:${st.i},n:0})">Leer otra vez</button><button class="btn" onclick="go('home')">Elegir otro cuento</button>`;
+ }
+}
+function pick(w){const q=STORIES[st.i].q[st.k];if(w===q[1]){st.done=true;st.err='';say('¡Muy bien!')}else{st.bad=(st.bad||[]).concat(w);st.err='Casi. Prueba otra vez.'}render()}
+const _go=go;go=function(s,e){if(s==='quiz'&&e)e.bad=[];_go(s,e)};
+apply();render();
+</script></body></html>
